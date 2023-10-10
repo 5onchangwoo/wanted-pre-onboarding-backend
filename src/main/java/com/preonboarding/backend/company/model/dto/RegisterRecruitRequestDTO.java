@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @ToString
 public class RegisterRecruitRequestDTO {
+    private long companyId;
     private String position;
     private int bounty;
     private String details;

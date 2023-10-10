@@ -1,21 +1,20 @@
 package com.preonboarding.backend.company.model.domain.entity;
 
 
-import com.preonboarding.backend.common.exception.NotFoundRecruitException;
 import com.preonboarding.backend.company.model.domain.vo.CompanyId;
 import com.preonboarding.backend.company.model.domain.vo.Money;
-import com.preonboarding.backend.company.model.domain.vo.RecruitId;
+import com.preonboarding.backend.recruit.model.domain.vo.RecruitId;
 import com.preonboarding.backend.company.model.domain.vo.WorkLocation;
+import com.preonboarding.backend.recruit.model.domain.entity.Recruit;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -34,35 +33,15 @@ public class Company {
     @Embedded
     private WorkLocation workLocation;
 
+    @Column(name = "delete_YN", nullable = false)
+    private boolean isDelete;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "company", orphanRemoval = true)
     @OrderBy("createdDate desc")
+    @BatchSize(size = 50)
     private List<Recruit> recruitList;
 
-    public Recruit registerRecruit(RecruitId id, String position, int bounty, String details, String skill){
-        Recruit newRecruit = new Recruit(id, this, position, new Money(bounty), details, skill, LocalDateTime.now(), LocalDateTime.now());
-        return newRecruit;
-    }
-
-    public Recruit updateRecruit(RecruitId recruitId, String position, Integer bounty, String details, String skill) {
-        Recruit recruit = this.recruitList.stream().filter((r) -> r.getId().equals(recruitId)).findFirst().orElseThrow(NotFoundRecruitException::new);
-        boolean isUpdated = false;
-        if(position!= null && !position.isBlank()) {
-            recruit.setPosition(position);
-            isUpdated = true;
-        }
-        if(bounty != null) {
-            recruit.setBounty(new Money(bounty));
-            isUpdated = true;
-        }
-        if(details != null && !details.isBlank()) {
-            recruit.setDetails(details);
-            isUpdated = true;
-        }
-        if(skill != null && !skill.isBlank()) {
-            recruit.setSkills(skill);
-            isUpdated = true;
-        }
-        if(isUpdated) recruit.setUpdatedDate(LocalDateTime.now());
-        return recruit;
+    public Recruit registerRecruit(RecruitId id, String position, int bounty, String details, String skill) {
+        return new Recruit(id, this, position, new Money(bounty), details, skill, LocalDateTime.now(), LocalDateTime.now());
     }
 }

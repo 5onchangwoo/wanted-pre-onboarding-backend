@@ -1,4 +1,4 @@
-package com.preonboarding.backend.company.model.domain.vo;
+package com.preonboarding.backend.recruit.model.domain.vo;
 
 import jakarta.persistence.*;
 import lombok.*;

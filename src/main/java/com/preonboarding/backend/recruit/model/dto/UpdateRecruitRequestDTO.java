@@ -1,4 +1,4 @@
-package com.preonboarding.backend.company.model.dto;
+package com.preonboarding.backend.recruit.model.dto;
 
 import lombok.*;
 

@@ -15,5 +15,5 @@ import java.io.Serializable;
 public class UserId implements Serializable {
 
     @Column(name = "user_id")
-    private int seq;
+    private long seq;
 }

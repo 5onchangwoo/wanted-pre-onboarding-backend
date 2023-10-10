@@ -1,7 +1,7 @@
-package com.preonboarding.backend.company.model.service;
+package com.preonboarding.backend.recruit.model.service;
 
-import com.preonboarding.backend.company.model.domain.vo.RecruitId;
-import com.preonboarding.backend.company.model.repository.RecruitRepository;
+import com.preonboarding.backend.recruit.model.domain.vo.RecruitId;
+import com.preonboarding.backend.recruit.model.repository.RecruitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
